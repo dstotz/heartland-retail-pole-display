@@ -1,0 +1,23 @@
+version: "3"
+services:
+  api:
+    environment:
+      NODE_ENV: "development"
+    build:
+      context: ./server
+      dockerfile: "Dockerfile"
+    ports:
+      - "9001:8080"
+    restart: always
+
+  ui:
+    build:
+      context: ./ui
+      dockerfile: "Dockerfile"
+    ports:
+      - "9000:3000"
+    links:
+      - api
+    volumes:
+      - ./ui/src:/app/src
+    restart: always
