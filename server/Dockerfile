@@ -13,4 +13,4 @@ EXPOSE 8080
 
 COPY . .
 
-CMD [ "ruby", "app.rb", "-p", "8080", "-o", "0.0.0.0" ]
+CMD ["./start"]

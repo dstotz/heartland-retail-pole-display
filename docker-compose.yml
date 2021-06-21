@@ -6,11 +6,20 @@ services:
     build:
       context: ./server
       dockerfile: "Dockerfile"
+    command:
+      - "ruby"
+      - "app.rb"
+      - "-p"
+      - "8080"
+      - "-o"
+      - "0.0.0.0"
     ports:
       - "9001:8080"
     restart: always
 
   ui:
+    environment:
+      REACT_APP_BASE_API_URL: "http://localhost:9001"
     build:
       context: ./ui
       dockerfile: "Dockerfile"

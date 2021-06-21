@@ -30,6 +30,10 @@ The `server` is an extremely lightweight [Sinatra](http://sinatrarb.com/) server
 
 The `ui` is a [React](https://reactjs.org/) app running on [NodeJS](https://nodejs.org/en/) boostrapped with [Create React App](https://github.com/facebook/create-react-app)
 
+## Deploying
+
+You can deploy this to Heroku as two separate apps. One for the server and one for the UI. The only thing that should need to be configured on Heroku after deploying is to set the Environment variable `REACT_APP_BASE_API_URL` to whatever the server app's address is, then restart the dynos.
+
 ## TODO
 
 - [ ] Finish writing documentation

@@ -7,7 +7,7 @@ interface SearchParam {
   value: string;
 }
 
-const baseUrl = 'http://localhost:9001';
+const baseUrl = process.env.REACT_APP_BASE_API_URL as string;
 
 const requestUrl = (
   subdomain: string,
