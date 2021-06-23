@@ -31,8 +31,25 @@ export const Settings = (props: IProps) => {
   const [useTicketTimeout, setUseTicketTimeout] = useState(
     currentConfig.useTicketTimeout
   );
+  const [showSplashScreen, setShowSplashScreen] = useState(
+    currentConfig.showSplashScreen
+  );
   const [splashScreenUrl, setSplashScreenUrl] = useState(
     currentConfig.splashScreenUrl
+  );
+  const [splashScreenInteract, setSplashScreenInteract] = useState(
+    currentConfig.splashScreenInteract
+  );
+  const [showCustomer, setShowCustomer] = useState(currentConfig.showCustomer);
+  const [showChangeDue, setShowChangeDue] = useState(
+    currentConfig.showChangeDue
+  );
+  const [showTicketNumber, setShowTicketNumber] = useState(
+    currentConfig.showTicketNumber
+  );
+  const [showSubtotal, setShowSubtotal] = useState(currentConfig.showSubtotal);
+  const [showItemNumber, setShowItemNumber] = useState(
+    currentConfig.showItemNumber
   );
 
   useEffect(() => {
@@ -68,16 +85,6 @@ export const Settings = (props: IProps) => {
     setStationUUID(uuid);
   };
 
-  const handleShowLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setShowLogo(e.currentTarget.checked);
-  };
-
-  const handleUseTicketTimeoutChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setUseTicketTimeout(e.currentTarget.checked);
-  };
-
   const handleSave = () => {
     const newConfig: Config = {
       subdomain,
@@ -89,6 +96,13 @@ export const Settings = (props: IProps) => {
       ticketTimeout,
       useTicketTimeout,
       splashScreenUrl,
+      showSplashScreen,
+      splashScreenInteract,
+      showCustomer,
+      showChangeDue,
+      showTicketNumber,
+      showSubtotal,
+      showItemNumber,
     };
     localStorage.setItem(poleConfigKey, JSON.stringify(newConfig));
     if (props.onSave) {
@@ -106,6 +120,13 @@ export const Settings = (props: IProps) => {
     setTicketTimeout(defaultConfig.ticketTimeout);
     setUseTicketTimeout(defaultConfig.useTicketTimeout);
     setSplashScreenUrl(defaultConfig.splashScreenUrl);
+    setShowSplashScreen(defaultConfig.showSplashScreen);
+    setSplashScreenInteract(defaultConfig.splashScreenInteract);
+    setShowCustomer(defaultConfig.showCustomer);
+    setShowChangeDue(defaultConfig.showChangeDue);
+    setShowTicketNumber(defaultConfig.showTicketNumber);
+    setShowSubtotal(defaultConfig.showSubtotal);
+    setShowItemNumber(defaultConfig.showItemNumber);
     localStorage.setItem(poleConfigKey, JSON.stringify(defaultConfig));
   };
 
@@ -130,16 +151,31 @@ export const Settings = (props: IProps) => {
   const stationDropdownItems = (): JSX.Element[] => {
     if (!locationsWithStations) return [];
     const dropdownItems: JSX.Element[] = [];
-    locationsWithStations.forEach((location) => {
+    const sortedLocations = locationsWithStations.sort((a, b) =>
+      a.name.localeCompare(b.name)
+    );
+
+    sortedLocations.forEach((location) => {
       const stations = location.stations as any[];
-      stations.forEach((station) => {
-        dropdownItems.push(
-          <option key={station.id} value={station.id} data-uuid={station.uuid}>
-            {location.name}: {station.name}
-          </option>
-        );
+      const sortedStations = stations.sort((a, b) =>
+        a.name.localeCompare(b.name)
+      );
+
+      sortedStations.forEach((station) => {
+        if (station['active?']) {
+          dropdownItems.push(
+            <option
+              key={station.id}
+              value={station.id}
+              data-uuid={station.uuid}
+            >
+              {location.name}: {station.name}
+            </option>
+          );
+        }
       });
     });
+
     return dropdownItems;
   };
 
@@ -180,7 +216,11 @@ export const Settings = (props: IProps) => {
             }`}
           >
             <select
-              disabled={stationListLoading}
+              disabled={
+                stationListLoading ||
+                !locationsWithStations ||
+                locationsWithStations.length < 1
+              }
               onChange={handleStationChange}
               value={locationsWithStations && stationId ? stationId : 'none'}
             >
@@ -211,19 +251,21 @@ export const Settings = (props: IProps) => {
         </div>
       </div>
 
-      <div className="field">
-        <label className="label">Splash screen URL</label>
-        <div className="control">
-          <input
-            value={splashScreenUrl || ''}
-            className="input"
-            type="url"
-            placeholder="https://example.com"
-            pattern="https://.*"
-            onChange={handleSplashScreenUrlChange}
-          />
+      {showSplashScreen && (
+        <div className="field">
+          <label className="label">Splash screen URL</label>
+          <div className="control">
+            <input
+              value={splashScreenUrl || ''}
+              className="input"
+              type="url"
+              placeholder="https://example.com"
+              pattern="https://.*"
+              onChange={handleSplashScreenUrlChange}
+            />
+          </div>
         </div>
-      </div>
+      )}
 
       {useTicketTimeout && (
         <div className="field">
@@ -249,10 +291,12 @@ export const Settings = (props: IProps) => {
         <label className="checkbox">
           <input
             type="checkbox"
-            onChange={handleUseTicketTimeoutChange}
+            onChange={(e) => {
+              setUseTicketTimeout(e.currentTarget.checked);
+            }}
             checked={useTicketTimeout}
           />
-          Hide idle tickets? (POS v1 only)
+          Hide idle tickets (POS v1 only)
         </label>
       </div>
 
@@ -260,14 +304,109 @@ export const Settings = (props: IProps) => {
         <label className="checkbox">
           <input
             type="checkbox"
-            onChange={handleShowLogoChange}
-            checked={showLogo}
+            onChange={(e) => {
+              setShowSplashScreen(e.currentTarget.checked);
+            }}
+            checked={showSplashScreen}
           />
-          Show company logo on display?
+          Show splash screen between sales
         </label>
       </div>
 
-      <div className="field is-grouped">
+      {showSplashScreen && (
+        <div className="field">
+          <label className="checkbox">
+            <input
+              type="checkbox"
+              onChange={(e) => {
+                setSplashScreenInteract(e.currentTarget.checked);
+              }}
+              checked={splashScreenInteract}
+            />
+            Splash screen can be interacted with
+          </label>
+        </div>
+      )}
+
+      <div className="field">
+        <label className="checkbox">
+          <input
+            type="checkbox"
+            onChange={(e) => {
+              setShowLogo(e.currentTarget.checked);
+            }}
+            checked={showLogo}
+          />
+          Show company logo
+        </label>
+      </div>
+
+      <div className="field">
+        <label className="checkbox">
+          <input
+            type="checkbox"
+            onChange={(e) => {
+              setShowTicketNumber(e.currentTarget.checked);
+            }}
+            checked={showTicketNumber}
+          />
+          Show ticket number
+        </label>
+      </div>
+
+      <div className="field">
+        <label className="checkbox">
+          <input
+            type="checkbox"
+            onChange={(e) => {
+              setShowCustomer(e.currentTarget.checked);
+            }}
+            checked={showCustomer}
+          />
+          Show customer
+        </label>
+      </div>
+
+      <div className="field">
+        <label className="checkbox">
+          <input
+            type="checkbox"
+            onChange={(e) => {
+              setShowItemNumber(e.currentTarget.checked);
+            }}
+            checked={showItemNumber}
+          />
+          Show item number
+        </label>
+      </div>
+
+      <div className="field">
+        <label className="checkbox">
+          <input
+            type="checkbox"
+            onChange={(e) => {
+              setShowSubtotal(e.currentTarget.checked);
+            }}
+            checked={showSubtotal}
+          />
+          Show item subtotal
+        </label>
+      </div>
+
+      <div className="field">
+        <label className="checkbox">
+          <input
+            type="checkbox"
+            onChange={(e) => {
+              setShowChangeDue(e.currentTarget.checked);
+            }}
+            checked={showChangeDue}
+          />
+          Show change due
+        </label>
+      </div>
+
+      <div className="field is-grouped" style={{ marginTop: '20px' }}>
         <div className="control">
           <button className="button is-link" onClick={handleSave}>
             Save
@@ -275,7 +414,7 @@ export const Settings = (props: IProps) => {
         </div>
         <div className="control">
           <button className="button is-link is-danger" onClick={handleReset}>
-            Reset
+            Reset to Default
           </button>
         </div>
       </div>

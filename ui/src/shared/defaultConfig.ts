@@ -10,6 +10,13 @@ export const defaultConfig: Config = {
   ticketTimeout: 90_000,
   useTicketTimeout: false,
   splashScreenUrl: null,
+  showSplashScreen: false,
+  splashScreenInteract: false,
+  showCustomer: true,
+  showChangeDue: true,
+  showTicketNumber: true,
+  showSubtotal: true,
+  showItemNumber: true,
 };
 
 export const getCurrentConfig = (): Config => {

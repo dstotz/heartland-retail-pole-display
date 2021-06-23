@@ -68,6 +68,7 @@ export const Display = (props: IProps) => {
   ]);
 
   const ticketIsIdle = (): boolean => {
+    if (apiVersion === 'v2') return false;
     if (props.config.useTicketTimeout && ticket) {
       const currentTime = new Date().getTime();
       const ticketUpdateAt = Date.parse(ticket.updated_at);
@@ -100,10 +101,10 @@ export const Display = (props: IProps) => {
     <div>
       {mainLine}
       <hr />
-      <TicketHeader ticket={ticket} />
-      <TicketLines lines={ticket.lines} />
-      <TicketPayments payments={ticket.payments} />
-      <TicketFooter ticket={ticket} />
+      <TicketHeader config={props.config} ticket={ticket} />
+      <TicketLines config={props.config} lines={ticket.lines} />
+      <TicketPayments config={props.config} payments={ticket.payments} />
+      <TicketFooter config={props.config} ticket={ticket} />
     </div>
   );
 };

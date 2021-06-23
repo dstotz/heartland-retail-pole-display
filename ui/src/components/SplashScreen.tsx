@@ -6,6 +6,8 @@ interface IProps {
 }
 
 export const SplashScreen = (props: IProps) => {
+  if (!props.config.showSplashScreen) return <div />;
+
   let width = '100%';
   let height = '500px';
 
@@ -22,7 +24,22 @@ export const SplashScreen = (props: IProps) => {
   }
 
   return (
-    <div className="block">
+    <div className="block" style={{ position: 'relative' }}>
+      {!props.config.splashScreenInteract && (
+        <div
+          id="iframeBlocker"
+          style={{
+            zIndex: 2,
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '95%',
+            height: '95%',
+            backgroundColor: 'aliceblue',
+            opacity: 0.1,
+          }}
+        ></div>
+      )}
       <iframe
         src={props.config.splashScreenUrl}
         title="Info"

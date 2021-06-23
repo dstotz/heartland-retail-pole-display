@@ -1,9 +1,11 @@
 import React from 'react';
 import { usdFormatter } from '../shared/formatter';
+import { Config } from '../types/Config';
 import { TicketLine } from '../types/TicketLine';
 
 interface IProps {
   lines: TicketLine[];
+  config: Config;
 }
 
 export const TicketLines = (props: IProps) => {
@@ -15,7 +17,7 @@ export const TicketLines = (props: IProps) => {
 
   const lineRows = lines.map((line: any) => (
     <tr key={line.id}>
-      <td>{line.item_public_id}</td>
+      {props.config.showItemNumber && <td>{line.item_public_id}</td>}
       <td>{line.description}</td>
       <td>{line.qty}</td>
       <td>
@@ -34,7 +36,7 @@ export const TicketLines = (props: IProps) => {
     >
       <thead>
         <tr>
-          <th>Item #</th>
+          {props.config.showItemNumber && <th>Item #</th>}
           <th>Description</th>
           <th>Qty</th>
           <th>Unit Price</th>

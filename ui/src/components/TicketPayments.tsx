@@ -1,9 +1,11 @@
 import React from 'react';
 import { usdFormatter } from '../shared/formatter';
+import { Config } from '../types/Config';
 import { TicketPayment } from '../types/TicketPayment';
 
 interface IProps {
   payments: TicketPayment[];
+  config: Config;
 }
 
 export const TicketPayments = (props: IProps) => {

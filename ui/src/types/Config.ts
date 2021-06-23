@@ -8,4 +8,11 @@ export interface Config {
   ticketTimeout: number;
   pollingFrequency: number;
   splashScreenUrl: string;
+  showSplashScreen: boolean;
+  splashScreenInteract: boolean;
+  showCustomer: boolean;
+  showChangeDue: boolean;
+  showTicketNumber: boolean;
+  showSubtotal: boolean;
+  showItemNumber: boolean;
 }

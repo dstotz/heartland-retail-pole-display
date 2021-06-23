@@ -1,9 +1,11 @@
 import React from 'react';
 import { usdFormatter } from '../shared/formatter';
+import { Config } from '../types/Config';
 import { Ticket } from '../types/Ticket';
 
 interface IProps {
   ticket: Ticket;
+  config: Config;
 }
 
 export const TicketFooter = (props: IProps) => {
@@ -15,12 +17,16 @@ export const TicketFooter = (props: IProps) => {
           <p className="title">{usdFormatter.format(props.ticket.tax_total)}</p>
         </div>
       </div>
-      <div className="level-item has-text-centered">
-        <div>
-          <p className="heading">Item Subtotal</p>
-          <p className="title">{usdFormatter.format(props.ticket.subtotal)}</p>
+      {props.config.showSubtotal && (
+        <div className="level-item has-text-centered">
+          <div>
+            <p className="heading">Item Subtotal</p>
+            <p className="title">
+              {usdFormatter.format(props.ticket.subtotal)}
+            </p>
+          </div>
         </div>
-      </div>
+      )}
       <div className="level-item has-text-centered">
         <div>
           <p className="heading">Total</p>
@@ -37,7 +43,7 @@ export const TicketFooter = (props: IProps) => {
           </div>
         </div>
       )}
-      {props.ticket.balance < 0 && (
+      {props.config.showChangeDue && props.ticket.balance < 0 && (
         <div className="level-item has-text-centered">
           <div>
             <p className="heading">Change Due</p>

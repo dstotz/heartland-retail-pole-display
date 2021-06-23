@@ -26,7 +26,11 @@ This allows you to configure the frequency at which the display updates. The def
 
 ##### Idle ticket timeout
 
-This will allow the ticket to stop being displayed if no updates have been made within a specific timeframe. This will make it so that if the sales rep leaves the register without voiding the ticket, it will automatically stop being shown until the ticket is updated again.
+This will allow the ticket to stop being displayed if no updates have been made within a specific timeframe. This will make it so that if the sales rep leaves the register without voiding the ticket, it will automatically stop being shown until the ticket is updated again. Currently only works on POS v1 so it is ignored on POS v2
+
+##### Show splash screen
+
+When enabled the content at the splash screen URL will be displayed between sales
 
 ##### Splash screen URL
 
@@ -34,13 +38,17 @@ This will allow you to show content whenever a ticket is not in progress. The de
 
 Pro-tip: To display a YouTube video as your splash screen such as an advertisement you have published, you can do so by clicking the Share button on the video and choosing the Embed option. From there you will need to copy the URL that will look something like `https://www.youtube.com/embed/<video_id>?controls=0`. You will want to then add on the following to the end of your URL to make it start automatically, loop, and be muted `&autoplay=1&mute=1&loop=1&playlist=<video_id>`. So if your video ID is `bn56apBLAJc` then your full Splash screen URL would be `https://www.youtube.com/embed/bn56apBLAJc?controls=0&autoplay=1&mute=1&loop=1&playlist=bn56apBLAJc`
 
+##### Splash screen can be interacted with
+
+When enabled, the content at the splash screen URL will allow interaction. This means if showing a YouTube video, it can be paused or changed. But if displaying some sort of form, enabling this will allow the customer to fill it out.
+
 ##### Show logo
 
 This fetches your logo from Heartland Retail and displays it along the top of the display. The max height for the logo display is 150px.
 
-##### Polling frequency
+##### Show [thing]
 
-From the settings you can change your Subdomain, API token, and station to watch. Other UI settings will likely also be available in the future for themeing. Note: the station list will not populate until you have a valid API Token and Subdomain entered.
+Toggles if that element should be displayed to the customer or not
 
 ## Development
 

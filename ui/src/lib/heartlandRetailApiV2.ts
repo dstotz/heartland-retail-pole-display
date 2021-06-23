@@ -133,6 +133,7 @@ export const getV2TicketInfo = async (
       stationId: stationUUID,
     });
     const order = data.salesOrders.nodes[0];
+    if (!order) return null;
 
     let orderLines: TicketLine[] = [];
     order.orderRequests.forEach((request: any) => {
