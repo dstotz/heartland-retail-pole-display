@@ -14,7 +14,7 @@ You will need your subdomain (ex. "derek" for derek.retail.heartland.us) and an 
 
 ### Settings
 
-You can access the in-app settings by pressing/clicking on the bottom left, top right, and top left corners in any order, then pressing any corner a second time and it will open the setup menu. You have 10 seconds to complete that click flow and then the timers reset.
+You can access the in-app settings by pressing/clicking on the bottom left, top right, and top left corners in any order within 10 seconds. Or by clicking and holding in one of those 3 corners for 3 seconds.
 
 From the settings you can change your Subdomain, API token, and station to watch. Other UI settings will likely also be available in the future for themeing. Note: the station list will not populate until you have a valid API Token and Subdomain entered.
 
@@ -41,3 +41,4 @@ You can deploy this to Heroku as two separate apps. One for the server and one f
 - [ ] Get CORS set up so that we can eliminate the need for proxy server
 - [ ] Add in themeing/dark mode
 - [ ] Add setting for polling frequency
+- [ ] Use compiled React instead of dev server for production

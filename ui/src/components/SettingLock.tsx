@@ -1,13 +1,28 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface IProps {
-  onUnlocked?: () => void;
+  onUnlocked: () => void;
 }
 
 export const SettingLock = (props: IProps) => {
   const [settingLock1Open, setSettingLock1Open] = useState(false);
   const [settingLock2Open, setSettingLock2Open] = useState(false);
   const [settingLock3Open, setSettingLock3Open] = useState(false);
+  let holdTimeout: NodeJS.Timeout;
+
+  useEffect(() => {
+    return () => {
+      if (holdTimeout) {
+        clearTimeout(holdTimeout);
+      }
+    };
+  }, [holdTimeout]);
+
+  const lockGetters = {
+    1: settingLock1Open,
+    2: settingLock2Open,
+    3: settingLock3Open,
+  };
 
   const lockSetters = {
     1: setSettingLock1Open,
@@ -15,20 +30,44 @@ export const SettingLock = (props: IProps) => {
     3: setSettingLock3Open,
   };
 
-  const isUnlocked = (): boolean => {
-    return settingLock1Open && settingLock2Open && settingLock3Open;
+  const lockTimeouts = {
+    1: null,
+    2: null,
+    3: null,
+  };
+
+  const handleHold = async () => {
+    holdTimeout = setTimeout(() => {
+      console.log('Unlocked');
+      props.onUnlocked();
+    }, 2_000);
+  };
+
+  const handleCancelHold = () => {
+    if (holdTimeout) {
+      clearTimeout(holdTimeout);
+    }
   };
 
   const handleLockPress = async (lockNumber: number) => {
     console.log('Unlocking point #', lockNumber);
-    await lockSetters[lockNumber](true);
+    lockSetters[lockNumber](true);
 
-    setTimeout(() => {
+    const otherLocksUnlocked = Object.keys(lockGetters)
+      .filter((k) => Number(k) !== lockNumber)
+      .map((k) => lockGetters[k])
+      .every((v) => v === true);
+
+    if (lockTimeouts[lockNumber]) {
+      clearTimeout(lockTimeouts[lockNumber]);
+    }
+
+    lockTimeouts[lockNumber] = setTimeout(() => {
       console.log('Locking point #', lockNumber);
       lockSetters[lockNumber](false);
     }, 10_000);
 
-    if (isUnlocked() && props.onUnlocked) {
+    if (otherLocksUnlocked) {
       console.log('Unlocked');
       props.onUnlocked();
     }
@@ -46,6 +85,10 @@ export const SettingLock = (props: IProps) => {
           zIndex: 1000,
         }}
         onClick={() => handleLockPress(2)}
+        onMouseDown={handleHold}
+        onMouseUp={handleCancelHold}
+        onTouchStart={handleHold}
+        onTouchEnd={handleCancelHold}
       />
       <div
         style={{
@@ -57,6 +100,10 @@ export const SettingLock = (props: IProps) => {
           zIndex: 1000,
         }}
         onClick={() => handleLockPress(1)}
+        onMouseDown={handleHold}
+        onMouseUp={handleCancelHold}
+        onTouchStart={handleHold}
+        onTouchEnd={handleCancelHold}
       />
       <div
         style={{
@@ -68,6 +115,10 @@ export const SettingLock = (props: IProps) => {
           zIndex: 1000,
         }}
         onClick={() => handleLockPress(3)}
+        onMouseDown={handleHold}
+        onMouseUp={handleCancelHold}
+        onTouchStart={handleHold}
+        onTouchEnd={handleCancelHold}
       />
     </div>
   );
