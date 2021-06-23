@@ -200,7 +200,7 @@ export const getV2TicketInfo = async (
       created_at: order.createdAt,
       updated_at: order.updatedAt,
       public_id: order.orderNumber,
-      customer_name: order.customer.name,
+      customer_name: order.customer?.name,
       subtotal: order.subtotal,
       balance: order.amountDue,
       tax_total: order.totalTax,
