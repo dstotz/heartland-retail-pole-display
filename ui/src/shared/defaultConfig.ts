@@ -6,7 +6,7 @@ export const defaultConfig: Config = {
   stationId: null,
   stationUUID: null,
   showLogo: false,
-  pollingFrequency: 3_000,
+  pollingFrequency: 1_000,
   ticketTimeout: 90_000,
   useTicketTimeout: false,
   splashScreenUrl: null,
