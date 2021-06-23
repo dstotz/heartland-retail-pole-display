@@ -14,7 +14,31 @@ You will need your subdomain (ex. "derek" for derek.retail.heartland.us) and an 
 
 ### Settings
 
-You can access the in-app settings by pressing/clicking on the bottom left, top right, and top left corners in any order, then pressing any corner a second time and it will open the setup menu. You have 10 seconds to complete that click flow and then the timers reset.
+You can access the in-app settings by pressing/clicking on the bottom left, top right, and top left corners in any order within 10 seconds. Or by clicking and holding in one of those 3 corners for 3 seconds.
+
+#### Required setings
+
+The Subdomain, API Token, and Station are required to be able to function. If using a tablet for the display recommend logging in to your station and generating an [API token](https://dev.retail.heartland.us/#authentication) on the device you will be using as the display to avoid needing to manually enter the long API token.
+
+##### Polling frequency
+
+This allows you to configure the frequency at which the display updates. The default speed is every second, but if you have a slow or metered internet connection, you can reduce it to a slower polling speed.
+
+##### Idle ticket timeout
+
+This will allow the ticket to stop being displayed if no updates have been made within a specific timeframe. This will make it so that if the sales rep leaves the register without voiding the ticket, it will automatically stop being shown until the ticket is updated again.
+
+##### Splash screen URL
+
+This will allow you to show content whenever a ticket is not in progress. The default frame window is full width x 500px or 350px if the show logo option is enabled.
+
+Pro-tip: To display a YouTube video as your splash screen such as an advertisement you have published, you can do so by clicking the Share button on the video and choosing the Embed option. From there you will need to copy the URL that will look something like `https://www.youtube.com/embed/<video_id>?controls=0`. You will want to then add on the following to the end of your URL to make it start automatically, loop, and be muted `&autoplay=1&mute=1&loop=1&playlist=<video_id>`. So if your video ID is `bn56apBLAJc` then your full Splash screen URL would be `https://www.youtube.com/embed/bn56apBLAJc?controls=0&autoplay=1&mute=1&loop=1&playlist=bn56apBLAJc`
+
+##### Show logo
+
+This fetches your logo from Heartland Retail and displays it along the top of the display. The max height for the logo display is 150px.
+
+##### Polling frequency
 
 From the settings you can change your Subdomain, API token, and station to watch. Other UI settings will likely also be available in the future for themeing. Note: the station list will not populate until you have a valid API Token and Subdomain entered.
 
@@ -41,3 +65,4 @@ You can deploy this to Heroku as two separate apps. One for the server and one f
 - [ ] Get CORS set up so that we can eliminate the need for proxy server
 - [ ] Add in themeing/dark mode
 - [ ] Add setting for polling frequency
+- [ ] Use compiled React instead of dev server for production

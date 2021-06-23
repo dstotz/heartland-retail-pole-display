@@ -2,6 +2,8 @@
 // `https://${subdomain}.retail.heartland.us` and remove the header X-Subdomain
 // once cors has been set up.
 
+import { Ticket } from '../types/Ticket';
+
 interface SearchParam {
   name: string;
   value: string;
@@ -81,7 +83,7 @@ export const getTicketInfo = async (
   subdomain: string,
   apiKey: string,
   stationId: string
-): Promise<any | null> => {
+): Promise<Ticket | null> => {
   const url = requestUrl(subdomain, '/api/sales/tickets', [
     { name: '_filter[]', value: `{"station_id":${stationId}}` },
     { name: '_include[]', value: 'lines' },
@@ -91,21 +93,23 @@ export const getTicketInfo = async (
     { name: 'sort', value: 'updated_at,desc' },
     { name: 'per_page', value: '1' },
   ]);
-  const response = await fetch(url, {
-    method: 'get',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${apiKey}`,
-      'X-Subdomain': subdomain,
-    },
-  });
 
-  const json = await response.json();
-  const ticket = json.results[0];
+  try {
+    const response = await fetch(url, {
+      method: 'get',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${apiKey}`,
+        'X-Subdomain': subdomain,
+      },
+    });
 
-  if (ticket && ticket.status === 'incomplete') {
+    const json = await response.json();
+    const ticket = json.results[0];
+
     return ticket;
-  } else {
-    return {};
+  } catch (err) {
+    console.error('Failed to get v1 ticket', err);
+    return null;
   }
 };

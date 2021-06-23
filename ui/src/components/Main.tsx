@@ -3,9 +3,10 @@ import { Settings } from './Settings';
 import { SettingLock } from './SettingLock';
 import { Display } from './Display';
 import { getCurrentConfig } from '../shared/defaultConfig';
+import { Config } from '../types/Config';
 
 export const Main = () => {
-  const [config, setConfig] = useState<any>(getCurrentConfig());
+  const [config, setConfig] = useState<Config>(getCurrentConfig());
 
   const setupComplete = (vals: any): boolean => {
     const isSetupComplete =
@@ -38,7 +39,7 @@ export const Main = () => {
               }}
             ></button>
           </header>
-          <section className="modal-card-body">
+          <section className="modal-card-body" style={{ zIndex: 2000 }}>
             <Settings onSave={handleSave} />
           </section>
         </div>
@@ -50,7 +51,7 @@ export const Main = () => {
           style={{ position: 'absolute', top: 10, right: 25 }}
         ></div>
         <section id="main" className="section">
-          <Display config={config} />
+          {!settingsOpen && <Display config={config} />}
         </section>
       </div>
     </div>
