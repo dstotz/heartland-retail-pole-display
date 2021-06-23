@@ -32,9 +32,8 @@ export const SplashScreen = (props: IProps) => {
             zIndex: 2,
             position: 'absolute',
             top: 0,
-            left: 0,
-            width: '95%',
-            height: '95%',
+            width: '100%',
+            height: height,
             backgroundColor: 'aliceblue',
             opacity: 0.1,
           }}
