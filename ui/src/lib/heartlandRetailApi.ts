@@ -113,3 +113,17 @@ export const getTicketInfo = async (
     return null;
   }
 };
+
+export const getFeatureFlags = async (subdomain: string, apiKey: string) => {
+  const url = requestUrl(subdomain, '/api/settings/springboard.feature_flags');
+  const response = await fetch(url, {
+    method: 'get',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${apiKey}`,
+      'X-Subdomain': subdomain,
+    },
+  });
+  const json = await response.json();
+  return json.value;
+};
