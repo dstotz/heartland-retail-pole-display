@@ -54,6 +54,17 @@ export const Main = () => {
           {!settingsOpen && <Display config={config} />}
         </section>
       </div>
+
+      <div
+        className="hr-logo"
+        style={{ position: 'absolute', bottom: 0, right: 0 }}
+      >
+        <img
+          src="/HRLogo.png"
+          alt="Heartland Retail"
+          style={{ height: '60px' }}
+        />
+      </div>
     </div>
   );
 };
