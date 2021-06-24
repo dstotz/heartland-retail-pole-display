@@ -17,6 +17,7 @@ export const defaultConfig: Config = {
   showTicketNumber: false,
   showSubtotal: true,
   showItemNumber: true,
+  autoScroll: true,
 };
 
 export const getCurrentConfig = (): Config => {

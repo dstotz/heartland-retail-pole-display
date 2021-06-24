@@ -51,6 +51,7 @@ export const Settings = (props: IProps) => {
   const [showItemNumber, setShowItemNumber] = useState(
     currentConfig.showItemNumber
   );
+  const [autoScroll, setAutoScroll] = useState(currentConfig.autoScroll);
 
   useEffect(() => {
     if (apiToken && subdomain && tokenIsValid) {
@@ -103,6 +104,7 @@ export const Settings = (props: IProps) => {
       showTicketNumber,
       showSubtotal,
       showItemNumber,
+      autoScroll,
     };
     localStorage.setItem(poleConfigKey, JSON.stringify(newConfig));
     if (props.onSave) {
@@ -127,6 +129,7 @@ export const Settings = (props: IProps) => {
     setShowTicketNumber(defaultConfig.showTicketNumber);
     setShowSubtotal(defaultConfig.showSubtotal);
     setShowItemNumber(defaultConfig.showItemNumber);
+    setAutoScroll(defaultConfig.autoScroll);
     localStorage.setItem(poleConfigKey, JSON.stringify(defaultConfig));
   };
 
@@ -286,6 +289,19 @@ export const Settings = (props: IProps) => {
           </div>
         </div>
       )}
+
+      <div className="field">
+        <label className="checkbox">
+          <input
+            type="checkbox"
+            onChange={(e) => {
+              setAutoScroll(e.currentTarget.checked);
+            }}
+            checked={autoScroll}
+          />
+          Auto scroll to bottom
+        </label>
+      </div>
 
       <div className="field">
         <label className="checkbox">

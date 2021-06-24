@@ -15,4 +15,5 @@ export interface Config {
   showTicketNumber: boolean;
   showSubtotal: boolean;
   showItemNumber: boolean;
+  autoScroll: boolean;
 }

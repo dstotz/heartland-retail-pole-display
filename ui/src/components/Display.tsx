@@ -30,6 +30,8 @@ export const Display = (props: IProps) => {
   const subdomain = props.config.subdomain;
   const showLogo = props.config.showLogo;
 
+  const endOfPageRef = React.createRef<HTMLDivElement>();
+
   useEffect(() => {
     if (subdomain && apiToken) {
       getCompanyName(subdomain, apiToken).then((name) => setCompanyName(name));
@@ -50,8 +52,14 @@ export const Display = (props: IProps) => {
           );
           setTicket(ticket);
         } else {
-          const ticket = await getTicketInfo(subdomain, apiToken, stationId);
-          setTicket(ticket);
+          const ticketInfo = await getTicketInfo(
+            subdomain,
+            apiToken,
+            stationId
+          );
+          if (JSON.stringify(ticketInfo) !== JSON.stringify(ticket)) {
+            setTicket(ticketInfo);
+          }
         }
       }
     }, props.config.pollingFrequency);
@@ -64,8 +72,15 @@ export const Display = (props: IProps) => {
     stationId,
     stationUUID,
     apiVersion,
+    ticket,
     props.config.pollingFrequency,
   ]);
+
+  useEffect(() => {
+    if (props.config.autoScroll && endOfPageRef.current) {
+      endOfPageRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [ticket, endOfPageRef, props.config.autoScroll]);
 
   const ticketIsIdle = (): boolean => {
     if (apiVersion === 'v2') return false;
@@ -105,6 +120,7 @@ export const Display = (props: IProps) => {
       <TicketLines config={props.config} lines={ticket.lines} />
       <TicketPayments config={props.config} payments={ticket.payments} />
       <TicketFooter config={props.config} ticket={ticket} />
+      <div ref={endOfPageRef} />
     </div>
   );
 };

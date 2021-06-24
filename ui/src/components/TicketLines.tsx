@@ -15,7 +15,15 @@ export const TicketLines = (props: IProps) => {
 
   if (lines.length < 1) return <div />;
 
-  const lineRows = lines.map((line: any) => (
+  let sortedLines = lines.sort((a, b) =>
+    a.updated_at.localeCompare(b.updated_at)
+  );
+
+  if (!props.config.autoScroll) {
+    sortedLines = sortedLines.reverse();
+  }
+
+  const lineRows = sortedLines.map((line: any) => (
     <tr key={line.id}>
       {props.config.showItemNumber && <td>{line.item_public_id}</td>}
       <td>{line.description}</td>

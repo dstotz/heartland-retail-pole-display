@@ -24,6 +24,10 @@ The Subdomain, API Token, and Station are required to be able to function. If us
 
 This allows you to configure the frequency at which the display updates. The default speed is every second, but if you have a slow or metered internet connection, you can reduce it to a slower polling speed.
 
+##### Auto scroll to bottom
+
+This feature allows the screen to auto scroll to the bottom as new lines or payments are added to ensure the most recent line and total are always in view. When enabled, the most recently updated line is auto moved to the bottom so it is always in view. When disabled, the most recently update line always displays at the top.
+
 ##### Idle ticket timeout
 
 This will allow the ticket to stop being displayed if no updates have been made within a specific timeframe. This will make it so that if the sales rep leaves the register without voiding the ticket, it will automatically stop being shown until the ticket is updated again. Currently only works on POS v1 so it is ignored on POS v2
