@@ -12,9 +12,9 @@ export const defaultConfig: Config = {
   splashScreenUrl: null,
   showSplashScreen: false,
   splashScreenInteract: false,
-  showCustomer: true,
+  showCustomer: false,
   showChangeDue: true,
-  showTicketNumber: true,
+  showTicketNumber: false,
   showSubtotal: true,
   showItemNumber: true,
 };
