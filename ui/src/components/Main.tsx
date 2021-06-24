@@ -57,12 +57,12 @@ export const Main = () => {
 
       <div
         className="hr-logo"
-        style={{ position: 'absolute', bottom: 0, right: 0 }}
+        style={{ position: 'fixed', bottom: -5, right: -5 }}
       >
         <img
           src="/HRLogo.png"
           alt="Heartland Retail"
-          style={{ height: '60px' }}
+          style={{ height: '45px' }}
         />
       </div>
     </div>
